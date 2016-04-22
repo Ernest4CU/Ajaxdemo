@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf8">
+<title>Demo</title>
+</head>
+<body>
+<h1>员工查询</h1>
+<label>请输入员工编号</label>
+<input type="text" id="keyword"></input>
+<button id="search">查询</button>
+<p id="searchResult"></p>
+
+<h1>员工新建</h1>
+<label>员工姓名</label>
+<input type="text" id="stuffName"></input><br>
+<label>员工编号</label>
+<input type="text" id="stuffNumber"></input><br>
+<label>员工性别</label>
+<select id="stuffSex">
+	<option>男</option>
+	<option>女</option>
+</select>
+<br>
+<label>员工职位</label>
+<input type="text" id="stuffJob"></input><br>
+<button id="save">保存</button>
+<p id="creatResult"></p>
+
+<script>
+	document.getElementById("search").onclick=function(){
+		//发送Ajax查询请求并处理
+		var request =new XMLHttpRequest();
+		request.open("GET","service.php?number="+document.getElementById("keyword").value);
+		request.send();
+		request.onreadystatechange=function(){
+			if(request.readyState === 4&&request.status === 200){
+			//做一些事情 request.responseText
+			
+				document.getElementById("searchResult").innerHTML=request.responseText;
+			}
+		}
+	}
+	
+	document.getElementById("save").onclick=function(){
+		//发送Ajax查询请求并处理
+		var request =new XMLHttpRequest();
+		request.open("POST","service.php");
+		var data ="name="+document.getElementById("stuffName").value
+			+"&number="+document.getElementById("stuffNumber").value
+			+"&sex="+document.getElementById("stuffSex").value
+			+"&job="+document.getElementById("stuffJob").value;
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		request.send(data);
+		
+		request.onreadystatechange=function(){
+			if(request.readyState === 4&&request.status === 200){
+			//做一些事情 request.responseText
+			
+				document.getElementById("creatResult").innerHTML=request.responseText;
+			}
+		}
+	}
+</script>
+</body>
+</html>
